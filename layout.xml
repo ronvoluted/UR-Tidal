@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layout onVolumeUp="volume_up" onVolumeDown="volume_down">
+	<row>
+		<label id="info" text="[Not Playing]" />
+	</row>
+	<row>
+		<button color="black" icon="vdown" ontap="volume_down" />
+		<button icon="vmute" ontap="volume_mute" />
+		<button icon="vup" ontap="volume_up" />
+	</row>
+	<row>
+		<button icon="previous" ontap="previous" />
+		<button icon="playpause" ontap="play_pause" />
+		<button icon="next" ontap="next" />
+	</row>
+	<row>
+		<button icon="repeat" ontap="toggle_repeat" />
+		<button icon="shuffle" ontap="toggle_shuffle" />
+	</row>
+</layout>
