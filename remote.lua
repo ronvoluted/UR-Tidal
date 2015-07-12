@@ -1,8 +1,8 @@
-local win = libs.win;
+local win = require("win");
+local server = require("server");
+local timer = require("timer");
+local utf8 = require("utf8");
 local kb = require("keyboard");
-local device = libs.device;
-local timer = libs.timer
-local utf8 = libs.utf8;
 local title = "";
 local tid = -1;
 
@@ -16,8 +16,36 @@ end
 actions.switch = function()
 	if OS_WINDOWS then
 		local hwnd = win.window("tidal.exe");
-		if (hwnd == 0) then actions.launch(); end
 		win.switchtowait("tidal.exe");
+	end
+end
+
+--@help Launch Tidal application
+actions.launch = function()
+	if OS_WINDOWS then
+		local hwnd = win.window("tidal.exe");
+		if (hwnd == 0) then
+			os.start("%programfiles(x86)%/TIDAL/TIDAL.exe");
+		end
+	end
+	win.switchtowait("tidal.exe");
+end
+
+--@help Update status information
+actions.update = function ()
+	local hwnd = win.window("tidal.exe");
+	local _title = win.title(hwnd);
+	if (_title == "") then
+		_title = "Tap to launch Tidal";
+	elseif (_title == "TIDAL") then
+		_title = "Launching Tidal...";
+	elseif (_title == "What's New - TIDAL") then
+		_title = "Tidal";
+	end
+	if (_title ~= title) then
+		title = _title;
+		title = utf8.replace(title, " - TIDAL", "");
+		server.update({ id = "info", text = title });
 	end
 end
 
@@ -29,40 +57,19 @@ events.blur = function ()
 	timer.cancel(tid);
 end
 
---@help Update status information
-actions.update = function ()
-	local hwnd = win.window("tidal.exe");
-	local _title = win.title(hwnd);
-	if (_title == "") then
-		_title = "[Not Playing]";
-	end
-	if (_title ~= title) then
-		title = _title;
-		title = utf8.replace(title, " - TIDAL", "");
-		server.update({ id = "info", text = title });
-	end
-end
-
---@help Launch Tidal application
-actions.launch = function()
-	if OS_WINDOWS then
-		os.start("%programfiles(x86)%/TIDAL/TIDAL.exe");
-	end
-end
-
 --@help Lower system volume
 actions.volume_down = function()
 	kb.press("volumedown");
 end
 
---@help Mute system volume
-actions.volume_mute = function()
-	kb.press("volumemute");
-end
-
 --@help Raise system volume
 actions.volume_up = function()
 	kb.press("volumeup");
+end
+
+--@help Mute system volume
+actions.volume_mute = function()
+	kb.press("volumemute");
 end
 
 --@help Previous track

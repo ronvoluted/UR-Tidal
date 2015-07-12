@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<layout onVolumeUp="volume_up" onVolumeDown="volume_down">
+<layout scroll="none" light="normal:#000000;color:#00ffff" dark="normal:#000000;color:#00ffff">
 	<row>
-		<label id="info" text="[Not Playing]" />
+		<label light="color:#ffffff" dark="color:#ffffff" id="info" text="Tap to launch Tidal" ontap="launch" />
 	</row>
 	<row>
-		<button color="black" icon="vdown" ontap="volume_down" />
+		<button icon="vdown" ontap="volume_down" />
 		<button icon="vmute" ontap="volume_mute" />
 		<button icon="vup" ontap="volume_up" />
 	</row>
